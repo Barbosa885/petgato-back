@@ -1,24 +1,36 @@
-# README
+## PetGatô - Grupo 6 2021/01
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+**Desenvolvedores:**<br>
+Gustavo Barbosa<br>
+Nathalia Oliveira<br>
+Marco Antonio<br>
 
-Things you may want to cover:
+**Gerente:** Victor Manuel<br>
 
-* Ruby version
+## Tipos
+`feat`: funcionalidade<br>
+`fix`: correção<br>
+`style`: estilo
 
-* System dependencies
+## Nomeando branchs
 
-* Configuration
+`{tipo}/{resumo}`
 
-* Database creation
+Exemplos:
 
-* Database initialization
+`feat/nome-da-branch`<br>
+`fix/nome-da-branch`<br>
+`style/nome-da-branch`
 
-* How to run the test suite
+## Commits
 
-* Services (job queues, cache servers, search engines, etc.)
+`{tipo}: {resumo}`
 
-* Deployment instructions
+Primeira letra do resumo com letra maiúscula.
 
-* ...
+Exemplos:
+
+`feat: Implementa componente de input`<br>
+`fix: Corrige comunicação com o back`
+
+Mais informações: https://udacity.github.io/git-styleguide/index.html
