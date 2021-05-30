@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :authorize_request, except: [:create]
-  before_action :find_user, except: [:index, :create]
+  before_action :authorize_request_admin, only: [:index]
 
   def index
     users = User.all
@@ -37,13 +37,6 @@ class UsersController < ApplicationController
   end
 
   private
-  def find_user
-    user = User.find(params[:id])
-    if !user
-      render status: :not_found
-    end
-  end
-
   def user_params
     params.permit(:name, :email, :password, :password_confirmation, :photo)
   end    
