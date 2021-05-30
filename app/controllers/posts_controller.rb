@@ -1,6 +1,5 @@
 class PostsController < ApplicationController
-  before_action :authorize_request, except: [:create]
-  before_action :authorize_request_admin, only: [:index]
+  before_action :authorize_request_admin, except: [:show]
 
   def index
     posts = Post.all
