@@ -1,7 +1,6 @@
 class PostsController < ApplicationController
-  #has_many :comments
-  #has_many :tagposts
-  #has_many :likes
+  before_action :authorize_request, except: [:create]
+  before_action :authorize_request_admin, only: [:index]
 
   def index
     posts = Post.all
@@ -38,13 +37,6 @@ class PostsController < ApplicationController
   end
 
   private
-  def find_post
-    post = Post.find(params[:id])
-    if !post
-      render status: :not_found
-    end
-  end
-
   def post_params
     params.permit(:title, :views, :banner_image, :content)
   end
