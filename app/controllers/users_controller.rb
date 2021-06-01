@@ -17,7 +17,7 @@ class UsersController < ApplicationController
     if user.save
       render json: user, status: :created
     else
-      render status: :bad_request
+      render json: { errors: user.errors.full_messages }, status: :bad_request
     end
   end
 
@@ -25,6 +25,9 @@ class UsersController < ApplicationController
     user = User.find(params[:id])
     user.destroy
     render status: :ok
+    if !user
+      render status: :not_found
+    end
   end
 
   def update
@@ -32,7 +35,7 @@ class UsersController < ApplicationController
     if user.update(user_params)
       render json: user, status: :ok
     else
-      render status: :bad_request
+      render json: { errors: user.errors.full_messages }, status: :bad_request
     end
   end
 

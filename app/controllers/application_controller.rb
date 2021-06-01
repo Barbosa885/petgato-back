@@ -9,10 +9,8 @@ class ApplicationController < ActionController::API
     begin
       decoded = JsonWebToken.decode(header)
       current_user = User.find(decoded[:user_id])
-    rescue ActiveRecord::RecordNotFound => error
-      render status: :unauthorized
     rescue JWT::DecodeError => error
-      render status: :unauthorized
+      render json: { errors: "User not logged" }, status: :unauthorized
     end
   end
 
@@ -22,13 +20,11 @@ class ApplicationController < ActionController::API
     begin
       decoded = JsonWebToken.decode(header)
       current_user = User.find(decoded[:user_id])
-    rescue ActiveRecord::RecordNotFound => error
-      render status: :unauthorized
-    rescue JWT::DecodeError => error
-      render status: :unauthorized
-    end
     if !current_user.is_admin
-      render status: :unauthorized
+      render json: { errors: "User is not admin" }, status: :unauthorized
+    end
+    rescue JWT::DecodeError => error
+      render json: { errors: "User not logged" }, status: :unauthorized
     end
   end
 end

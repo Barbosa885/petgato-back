@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :authorize_request_admin, except: [:show]
+  before_action :authorize_request_admin, except: [:index, :show]
 
   def index
     posts = Post.all
@@ -16,7 +16,7 @@ class PostsController < ApplicationController
     if post.save
       render json: post, status: :created
     else
-      render status: :bad_request
+      render json: { errors: post.errors.full_messages }, status: :bad_request
     end
   end
 
@@ -31,7 +31,7 @@ class PostsController < ApplicationController
     if post.update(post_params)
       render json: post, status: :ok
     else
-      render status: :bad_request
+      render json: { errors: post.errors.full_messages }, status: :bad_request
     end
   end
 
