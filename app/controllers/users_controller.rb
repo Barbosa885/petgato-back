@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :authorize_request, except: [:create]
-  before_action :find_user, except: [:index, :create]
+  before_action :authorize_request_admin, only: [:index]
 
   def index
     users = User.all
@@ -17,7 +17,7 @@ class UsersController < ApplicationController
     if user.save
       render json: user, status: :created
     else
-      render status: :bad_request
+      render json: { errors: user.errors.full_messages }, status: :bad_request
     end
   end
 
@@ -25,6 +25,9 @@ class UsersController < ApplicationController
     user = User.find(params[:id])
     user.destroy
     render status: :ok
+    if !user
+      render status: :not_found
+    end
   end
 
   def update
@@ -32,18 +35,11 @@ class UsersController < ApplicationController
     if user.update(user_params)
       render json: user, status: :ok
     else
-      render status: :bad_request
+      render json: { errors: user.errors.full_messages }, status: :bad_request
     end
   end
 
   private
-  def find_user
-    user = User.find(params[:id])
-    if !user
-      render status: :not_found
-    end
-  end
-
   def user_params
     params.permit(:name, :email, :password, :password_confirmation, :photo)
   end    
