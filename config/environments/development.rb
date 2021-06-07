@@ -5,9 +5,9 @@ Rails.application.configure do
   config.action_mailer.smtp_settings = {
       address:              'smtp.gmail.com',
       port:                 587,
-      domain:               'cjr.org.br',
-      user_name:            'nathalia.pereira@cjr.org.br',
-      password:             '',
+      domain:               'gmail.com',
+      user_name:            'petgatomeow@gmail.com',
+      password:             'Petgatome@wme@w705',
       authentication:       'plain',
       enable_starttls_auto: true  }
   # Settings specified here will take precedence over those in config/application.rb.
