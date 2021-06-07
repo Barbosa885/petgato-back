@@ -16,6 +16,7 @@ class UsersController < ApplicationController
     user = User.new(name: params[:name], email: params[:email], password: params[:password], photo: params[:photo])
     if user.save
       render json: user, status: :created
+      UserMailer.welcome_email(user).deliver_now
     else
       render json: { errors: user.errors.full_messages }, status: :bad_request
     end
