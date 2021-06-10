@@ -1,8 +1,9 @@
 class PostsController < ApplicationController
+  include Paginable
   before_action :authorize_request_admin, except: [:index, :show]
 
   def index
-    posts = Post.all
+    posts = Post.page(current_page).per(per_page)
     render json: posts, status: :ok
   end
   

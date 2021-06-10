@@ -1,9 +1,10 @@
 class UsersController < ApplicationController
+  include Paginable
   before_action :authorize_request, except: [:create]
   before_action :authorize_request_admin, only: [:index]
 
   def index
-    users = User.all
+    users = User.page(current_page).per(per_page)
     render json: users, status: :ok
   end
   

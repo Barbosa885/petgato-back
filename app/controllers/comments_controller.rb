@@ -1,10 +1,10 @@
 class CommentsController < ApplicationController
+  include Paginable
   before_action :set_comment, only: [:show, :update, :destroy]
 
   # GET /comments
   def index
-    @comments = Comment.all
-
+    @comments = Comment.page(current_page).per(per_page)
     render json: @comments
   end
 

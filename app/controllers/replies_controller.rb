@@ -1,10 +1,10 @@
 class RepliesController < ApplicationController
+  include Paginable
   before_action :set_reply, only: [:show, :update, :destroy]
 
   # GET /replies
   def index
-    @replies = Reply.all
-
+    @replies = Reply.page(current_page).per(per_page)
     render json: @replies
   end
 
