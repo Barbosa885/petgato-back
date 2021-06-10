@@ -32,6 +32,12 @@ Rails.application.routes.draw do
   delete '/replies/:id', to: 'replies#destroy'
   put '/replies/:id', to: 'replies#update'
 
+  get '/reports', to: 'reports#index'
+  get '/reports/:id', to: 'reports#show'
+  post '/reports', to: 'reports#create'
+  delete '/reports/:id', to: 'reports#destroy'
+  put '/reports/:id', to: 'reports#update'
+
   resources :users, params: :name
   post '/login', to: 'authentication#login'
   get '/*a', to: 'application#not_found'
