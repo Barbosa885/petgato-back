@@ -1,6 +1,8 @@
 class CommentsController < ApplicationController
   include Paginable
   before_action :set_comment, only: [:show, :update, :destroy]
+  before_action :authorize_request, except: [:index, :show]
+  before_action :authorize_request_admin, only: [:destroy]
 
   # GET /comments
   def index

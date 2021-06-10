@@ -1,6 +1,8 @@
 class RepliesController < ApplicationController
   include Paginable
   before_action :set_reply, only: [:show, :update, :destroy]
+  before_action :authorize_request, except: [:index, :show]
+  before_action :authorize_request_admin, only: [:destroy]
 
   # GET /replies
   def index
