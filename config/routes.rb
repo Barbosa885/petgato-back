@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
+  resources :contacts
   resources :replies
   resources :comments
   resources :tags
+
   get '/users', to: 'users#index'
   get '/users/:id', to: 'users#show'
   post '/users', to: 'users#create'
@@ -40,5 +42,8 @@ Rails.application.routes.draw do
 
   resources :users, params: :name
   post '/login', to: 'authentication#login'
+  post "login/forgot_password", to: "users#forgot"
+  post "login/reset_password", to: "users#reset"
+
   get '/*a', to: 'application#not_found'
 end
