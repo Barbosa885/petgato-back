@@ -20,6 +20,9 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'actiontext', require: "action_text"
 gem 'image_processing', "~> 1.2"
 gem 'webpacker'
+#Paginates API
+gem 'kaminari'
+
 gem 'actionmailer_inline_css'
 
 # Use Active Storage variant

@@ -1,11 +1,11 @@
 class TagsController < ApplicationController
+  include Paginable
   before_action :set_tag, only: [:show, :update, :destroy]
   before_action :authorize_request_admin
 
   # GET /tags
   def index
-    @tags = Tag.all
-
+    @tags = Tag.page(current_page).per(per_page)
     render json: @tags
   end
 
