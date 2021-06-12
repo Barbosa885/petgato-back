@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :authorize_request, except: [:create]
+  before_action :authorize_request, except: [:create, :forgot, :reset]
   before_action :authorize_request_admin, only: [:index]
 
   def index
@@ -16,6 +16,7 @@ class UsersController < ApplicationController
     user = User.new(name: params[:name], email: params[:email], password: params[:password], photo: params[:photo])
     if user.save
       render json: user, status: :created
+      UserMailer.welcome_email(user).deliver_now
     else
       render json: { errors: user.errors.full_messages }, status: :bad_request
     end
@@ -36,6 +37,48 @@ class UsersController < ApplicationController
       render json: user, status: :ok
     else
       render json: { errors: user.errors.full_messages }, status: :bad_request
+    end
+  end
+
+  def forgot
+    if params[:email].blank?
+      return render json: {error: 'Email not present'}
+    end
+
+    user = User.find_by(email: params[:email])
+
+    if user.present?
+      user.generate_password_token!
+      render status: :ok
+      UserMailer.forgot_password_email(user).deliver_now
+    else
+      render json: {error: ['Email not registered']}, status: :not_found
+    end
+  end
+
+  def reset
+    token = params[:token].to_s
+    email = params[:email]
+
+    if token.blank?
+      return render json: {error: 'Token not present'}
+    end
+
+    if email.blank?
+      return render json: {error: 'Email not present'}
+    end
+
+    user = User.find_by(email: params[:email])
+
+    if user.present? && user.password_token_valid?
+      if user.reset_password!(params[:password])
+        render status: :ok
+        UserMailer.reset_password_email(user).deliver_now
+      else
+        render json: {error: user.errors.full_messages}, status: :unprocessable_entity
+      end
+    else
+      render json: {error:  ['Link not valid or expired']}, status: :not_found
     end
   end
 
