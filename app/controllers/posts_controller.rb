@@ -1,4 +1,5 @@
 class PostsController < ApplicationController
+  include Paginable
   before_action :authorize_request_admin, except: [:index, :show]
 
   #Importa todos os posts incluindo o conteudo actionText
@@ -18,7 +19,7 @@ class PostsController < ApplicationController
   end
 
   def create
-    post = Post.new(title: params[:title], views: params[:views], banner_image: params[:banner_image], content: params[:content])
+    post = Post.new(title: params[:title], views: params[:views], banner_image: params[:banner_image], content: params[:content], tag_ids: params[:tag_ids])
     if post.save
       render json: post, status: :created
     else
@@ -43,6 +44,6 @@ class PostsController < ApplicationController
 
   private
   def post_params
-    params.permit(:title, :views, :banner_image, :content)
+    params.permit(:title, :views, :banner_image, :content, :tag_ids)
   end
 end
