@@ -1,14 +1,20 @@
 class PostsController < ApplicationController
   before_action :authorize_request_admin, except: [:index, :show]
 
+  #Importa todos os posts incluindo o conteudo actionText
   def index
-    posts = Post.all
+    posts = Post.all.map do |post|
+      content = post.content.body.to_html
+      post.attributes.merge(content: content)
+    end
     render json: posts, status: :ok
   end
   
+  #Importa um post especifico incluindo o conteudo actionText
   def show
     post = Post.find(params[:id])
-    render json: post, status: :ok
+    content = post.content.body.to_html
+    render json: post.attributes.merge(content: content), status: :ok
   end
 
   def create
