@@ -1,10 +1,11 @@
 class ContactsController < ApplicationController
+  include Paginable
   before_action :set_contact, only: [:show, :update, :destroy]
+  before_action :authorize_request_admin, except: [:create]
 
   # GET /contacts
   def index
-    @contacts = Contact.all
-
+    @contacts = Contact.page(current_page).per(per_page)
     render json: @contacts
   end
 
@@ -46,6 +47,6 @@ class ContactsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def contact_params
-      params.require(:contact).permit(:name, :email, :description)
+      params.permit(:name, :email, :description)
     end
 end
