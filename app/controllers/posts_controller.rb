@@ -1,8 +1,9 @@
 class PostsController < ApplicationController
+  include Paginable
   before_action :authorize_request_admin, except: [:index, :show]
 
   def index
-    posts = Post.all
+    posts = Post.page(current_page).per(per_page)
     render json: posts, status: :ok
   end
   
@@ -12,7 +13,7 @@ class PostsController < ApplicationController
   end
 
   def create
-    post = Post.new(title: params[:title], views: params[:views], banner_image: params[:banner_image], content: params[:content])
+    post = Post.new(title: params[:title], views: params[:views], banner_image: params[:banner_image], content: params[:content], tag_ids: params[:tag_ids])
     if post.save
       render json: post, status: :created
     else
@@ -37,6 +38,6 @@ class PostsController < ApplicationController
 
   private
   def post_params
-    params.permit(:title, :views, :banner_image, :content)
+    params.permit(:title, :views, :banner_image, :content, :tag_ids)
   end
 end
