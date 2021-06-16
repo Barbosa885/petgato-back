@@ -2,14 +2,22 @@ class PostsController < ApplicationController
   include Paginable
   before_action :authorize_request_admin, except: [:index, :show]
 
+  #Inclui o conteúdo e a image de banner nas postagens com paginação
   def index
-    posts = Post.page(current_page).per(per_page)
+    posts = Post.page(current_page).per(per_page).map do |post|
+      content = post.content.body.to_html
+      url = url_for(post.banner_image)
+      post.attributes.merge(content: content, banner_image: url)
+    end
     render json: posts, status: :ok
   end
   
+  #Inclui o conteúdo e a image de banner na postagem
   def show
     post = Post.find(params[:id])
-    render json: post, status: :ok
+    content = post.content.body.to_html
+    url = url_for(post.banner_image)
+    render json: post.attributes.merge(content: content, banner_image: url), status: :ok
   end
 
   def create

@@ -1,10 +1,6 @@
 class UsersController < ApplicationController
-<<<<<<< HEAD
   include Paginable
-  before_action :authorize_request, except: [:create]
-=======
   before_action :authorize_request, except: [:create, :forgot, :reset]
->>>>>>> develop
   before_action :authorize_request_admin, only: [:index]
 
   def index

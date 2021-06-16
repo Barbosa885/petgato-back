@@ -45,5 +45,5 @@ Rails.application.routes.draw do
   post "login/forgot_password", to: "users#forgot"
   post "login/reset_password", to: "users#reset"
 
-  get '/*a', to: 'application#not_found'
+  # get '/*a', to: 'application#not_found'
 end
