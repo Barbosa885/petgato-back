@@ -15,7 +15,7 @@ class PostsController < ApplicationController
   #Inclui o conteúdo e a image de banner na postagem
   def show
     post = Post.find(params[:id])
-    content = post.content.body.to_html
+    content = post.content
     url = url_for(post.banner_image)
     render json: post.attributes.merge(content: content, banner_image: url), status: :ok
   end
