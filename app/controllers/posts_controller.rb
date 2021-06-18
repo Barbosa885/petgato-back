@@ -5,7 +5,7 @@ class PostsController < ApplicationController
   #Inclui o conteúdo e a image de banner nas postagens com paginação
   def index
     posts = Post.page(current_page).per(per_page).map do |post|
-      content = post.content.body.to_html
+      content = post.content
       url = url_for(post.banner_image)
       post.attributes.merge(content: content, banner_image: url)
     end
